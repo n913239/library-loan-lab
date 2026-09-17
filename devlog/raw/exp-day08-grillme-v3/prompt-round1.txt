@@ -1,0 +1,1 @@
+/grill-me 我要實作借書與還書這個 feature。規格在 docs/spec.md,非目標在 docs/non-goals.md,硬規則在 CLAUDE.md。請拷問這份規格。

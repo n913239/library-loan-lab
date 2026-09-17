@@ -1,0 +1,48 @@
+{
+  "num_turns": 8,
+  "duration_ms": 27241,
+  "total_cost_usd": 0.3101715,
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 17788,
+    "cache_read_input_tokens": 172483,
+    "output_tokens": 1799,
+    "output_tokens_details": {
+      "thinking_tokens": 87
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17788,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "not_available",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 379,
+        "cache_read_input_tokens": 29054,
+        "cache_creation_input_tokens": 422,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 422
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_018Dhdph42ARkoNJr5AhTbwd",
+      "tool_input": {
+        "command": "ls <repo>/src/domain/ && cat <repo>/package.json && git -C <repo> status --short",
+        "description": "List domain files, package.json, git status"
+      }
+    }
+  ]
+}
