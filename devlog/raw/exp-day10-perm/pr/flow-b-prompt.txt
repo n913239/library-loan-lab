@@ -1,0 +1,1 @@
+實作 src/domain/book-state.js:書的狀態機。依 docs/spec.md 的狀態機與 CLAUDE.md 硬規則 2(白名單轉移 available → on_loan → available,轉移表只能寫在這個檔)。先寫 tests/book-state.test.js(合法轉移、非法轉移要拋錯、未知狀態或事件要拋錯),再寫實作,跑 npx vitest run 確認全綠。然後 git add、commit(照這個 repo 的 commit message 風格,不要加任何 AI 署名 trailer)、push 到分支 feature/book-state、用 gh pr create 開 PR 到 main,標題與內文寫清楚改了什麼、怎麼驗。不要碰 main,不要 merge。每一步的指令輸出都要回報。

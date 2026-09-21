@@ -1,0 +1,1 @@
+{"commits":[{"msg":"AI 版:dueAt(now, loanDays) 借出當下算到期時刻快照;先紅後綠 15 題全綠(14 天、帶毫秒、不","oid":"f9964a3"}],"merge":"633d3b9","mergedAt":"2026-09-21T06:46:44Z","number":1,"title":"domain:dueAt(now, loanDays) 借出當下算到期時刻快照","url":"https://github.com/n913239/library-loan-lab/pull/1"}
