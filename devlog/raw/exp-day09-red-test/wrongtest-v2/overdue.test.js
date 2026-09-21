@@ -16,8 +16,8 @@ describe('逾期天數', () => {
     expect(overdueDays(dueAt, '2026-09-18T02:00:00Z')).toBe(0)
   })
 
-  it('晚 1 秒,未滿一天 → 0(floor)', () => {
-    expect(overdueDays(dueAt, '2026-09-18T02:00:01Z')).toBe(0)
+  it('晚 1 秒 → 1', () => {
+    expect(overdueDays(dueAt, '2026-09-18T02:00:01Z')).toBe(1)
   })
 
   it('晚 1 天整 → 1', () => {
@@ -31,10 +31,5 @@ describe('逾期天數', () => {
   it('同樣的 dueAt,不同的 now 給不同答案(時間是參數)', () => {
     expect(overdueDays(dueAt, '2026-10-01T00:00:00Z')).toBe(12)
     expect(overdueDays(dueAt, '2026-10-02T00:00:00Z')).toBe(13)
-  })
-  // 反例(AI 版之後補的):AI 自己加了 TypeError 防禦,規格原本沒表態。留它,就用一條 case 釘住。
-  it('不是 ISO-8601 字串 → 丟 TypeError,不能默默回 NaN(硬規則 4)', () => {
-    expect(() => overdueDays(dueAt, '明天')).toThrow(TypeError)
-    expect(() => overdueDays('', '2026-09-19T02:00:00Z')).toThrow(TypeError)
   })
 })

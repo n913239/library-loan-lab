@@ -1,0 +1,21 @@
+diff --git a/src/domain/overdue.js b/src/domain/overdue.js
+index 37dc9a9..d0be609 100644
+--- a/src/domain/overdue.js
++++ b/src/domain/overdue.js
+@@ -1,5 +1,7 @@
+ // src/domain/overdue.js
+-// 規格層決定 3:overdue_days = max(0, floor((now − due_at) / 86400 秒)),純 UTC 秒差,不看日曆日。
++// 逾期天數 = floor((now − due_at) / 86400 秒),純 UTC 秒差,不看日曆日;
++// 但只要 now 超過 due_at(哪怕 1 秒),至少算 1 天(commit 4df4ea3:逾期未滿一天也算一天)。
++// 注意:這不是 ceil —— 晚 3 天 23 小時仍是 3,不是 4;與 docs/spec.md 決定 3「未滿一天不算」相衝,待規格更新。
+ // 硬規則 1:now 從參數進來,這裡不准讀時鐘。
+ // 硬規則 4:兩個參數都是 UTC 的 ISO-8601 字串。
+ 
+@@ -12,5 +14,6 @@ export function overdueDays(dueAt, now) {
+   if (Number.isNaN(nowMs)) throw new TypeError(`now 不是合法的 ISO-8601 字串:${now}`)
+ 
+   const diffSeconds = Math.floor((nowMs - dueMs) / 1000)
+-  return Math.max(0, Math.floor(diffSeconds / SECONDS_PER_DAY))
++  if (diffSeconds <= 0) return 0
++  return Math.max(1, Math.floor(diffSeconds / SECONDS_PER_DAY))
+ }

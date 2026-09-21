@@ -1,0 +1,13 @@
+✓ 逾期天數 > 還沒到期 → 0 1ms
+✓ 逾期天數 > 剛好等於到期時刻 → 0 0ms
+✓ 逾期天數 > 晚 1 秒,未滿一天 → 0(floor) 0ms
+✓ 逾期天數 > 晚 1 天整 → 1 0ms
+   × 逾期天數 > 晚 3 天又 23 小時 → 3 3ms
+     → expected 4 to be 3 // Object.is equality
+   × 逾期天數 > 同樣的 dueAt,不同的 now 給不同答案(時間是參數) 0ms
+     → expected 13 to be 12 // Object.is equality
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  tests/overdue.test.js > 逾期天數 > 晚 3 天又 23 小時 → 3
+ 27|   it('晚 3 天又 23 小時 → 3', () => {
+ FAIL  tests/overdue.test.js > 逾期天數 > 同樣的 dueAt,不同的 now 給不同答案(時間是參數)
+      Tests  2 failed | 4 passed (6)
