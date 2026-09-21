@@ -48,6 +48,7 @@
 | 只能還自己的 | 別人的紀錄 `return` → 4xx |
 | 逾期天數用 `due_at` 快照 | 借出後改借期政策 → 歸還 → `overdue_days` 不受影響 |
 | 時間是參數 | domain 函式給不同的 `now` 得到不同結果,而且不讀時鐘 |
+| 狀態轉移只認白名單 | 非法轉移(`on_loan` 再 `borrow`、`available` 就 `return`)→ `IllegalTransitionError`;未知狀態/事件(非字串、大小寫不符、`reserved` 之類)→ `TypeError` |
 
 ## 規格層的決定(寫契約之前必須先有)
 
