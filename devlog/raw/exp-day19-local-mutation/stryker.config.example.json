@@ -1,0 +1,4 @@
+{ "testRunner": "vitest", "vitest": { "dir": "tests/local" },
+  "mutate": ["src/domain/book-state.js", "src/domain/due-at.js"],
+  "reporters": ["clear-text", "json"], "jsonReporter": { "fileName": "reports/precise.json" },
+  "coverageAnalysis": "perTest", "concurrency": 4 }

@@ -1,0 +1,152 @@
+[32m19:24:58 (39322) INFO ProjectReader[39m Found 2 of 243 file(s) to be mutated.
+[32m19:24:58 (39322) INFO Instrumenter[39m Instrumented 2 source file(s) with 56 mutant(s)
+[32m19:24:58 (39322) INFO ConcurrencyTokenProvider[39m Creating 4 test runner process(es).
+[32m19:24:58 (39322) INFO DryRunExecutor[39m Starting initial test run (vitest test runner with "perTest" coverage analysis). This may take a while.
+[32m19:24:58 (39322) INFO DryRunExecutor[39m Initial test run succeeded. Ran 43 tests in 0 seconds (net 3.9982520000000363 ms, overhead 170.00174799999996 ms).
+[33m19:24:58 (39322) WARN MutantTestPlanner[39m Detected 19 static mutants (34% of total) that are estimated to take 66% of the time running the tests!
+  You might want to enable "ignoreStatic" to ignore these static mutants for your next run. 
+  For more information about static mutants visit: https://stryker-mutator.io/docs/mutation-testing-elements/static-mutants
+  (disable "warnings.slow" to ignore this warning)
+
+All tests
+  book-state.test.js
+    ✓ BOOK_STATES 只有 available 和 on_loan (killed 3)
+    ✘ BOOK_STATES Object.freeze, 不可篡改 (covered 0)
+    ✓ BOOK_EVENTS 只有 borrow 和 return (killed 3)
+    ✘ BOOK_EVENTS Object.freeze, 不可篡改 (covered 0)
+    ✓ nextBookStatus — 合法轉移 available + borrow → on_loan (killed 14)
+    ✓ nextBookStatus — 合法轉移 on_loan + return → available (killed 6)
+    ~ nextBookStatus — 合法轉移 多次連續轉移,回到初始狀態 (covered 11)
+    ✓ nextBookStatus — 非法轉移 available + return → IllegalTransitionError (killed 3)
+    ~ nextBookStatus — 非法轉移 on_loan + borrow → IllegalTransitionError (covered 15)
+    ✓ nextBookStatus — 非法轉移 錯誤訊息包含狀態和事件 (killed 1)
+    ~ nextBookStatus — 非法轉移 IllegalTransitionError 掛載 status 和 event (covered 15)
+    ✓ nextBookStatus — 輸入驗證 未知狀態 → TypeError (killed 1)
+    ✓ nextBookStatus — 輸入驗證 未知事件 → TypeError (killed 1)
+    ~ nextBookStatus — 輸入驗證 null 狀態 → TypeError (covered 5)
+    ~ nextBookStatus — 輸入驗證 undefined 事件 → TypeError (covered 8)
+    ~ nextBookStatus — 輸入驗證 狀態是原型鏈上的 toString → TypeError (Prototype Pollution 防護) (covered 5)
+    ~ nextBookStatus — 輸入驗證 事件是 __proto__ → TypeError (Prototype Pollution 防護) (covered 8)
+  due-at.test.js
+    ✓ dueAt — 正確計算 借 14 天,從基準日算起 (killed 11)
+    ~ dueAt — 正確計算 借 7 天 (covered 17)
+    ~ dueAt — 正確計算 借 1 天,跨月 (covered 17)
+    ~ dueAt — 正確計算 借 1 天,跨年 (covered 17)
+    ~ dueAt — 正確計算 借 30 天,跨年 + 閏年 (covered 17)
+    ~ dueAt — 正確計算 借 1 天,閏年 2 月 (covered 17)
+    ~ dueAt — 正確計算 非閏年 2 月 → 無閏日 (covered 17)
+    ~ dueAt — 正確計算 now 帶毫秒,回傳也保留毫秒 (covered 17)
+    ~ dueAt — 正確計算 回傳一律結尾 Z (ISO-8601 UTC) (covered 17)
+    ~ dueAt — 正確計算 借 365 天 (一整年) (covered 17)
+    ✓ dueAt — 非整數天數 loanDays = 0 → TypeError (必須正整數) (killed 4)
+    ~ dueAt — 非整數天數 loanDays = -1 → TypeError (covered 15)
+    ~ dueAt — 非整數天數 loanDays = 3.5 → TypeError (必須整數) (covered 12)
+    ~ dueAt — 非整數天數 loanDays = "14" → TypeError (字串不行) (covered 12)
+    ~ dueAt — 非整數天數 loanDays = null → TypeError (covered 12)
+    ~ dueAt — 非整數天數 loanDays = undefined → TypeError (covered 12)
+    ✓ dueAt — now 驗證 now = "" → TypeError (空字串不是有效 ISO-8601) (killed 1)
+    ~ dueAt — now 驗證 now = null → TypeError (covered 6)
+    ~ dueAt — now 驗證 now = undefined → TypeError (covered 6)
+    ~ dueAt — now 驗證 now = 數字 → TypeError (covered 6)
+    ~ dueAt — now 驗證 now = "明天" → TypeError (非 ISO-8601) (covered 8)
+    ~ dueAt — now 驗證 now = 空字串 → TypeError (covered 8)
+    ~ dueAt — 邊界時間  midnight UTC 借 1 天 → 下一日 midnight (covered 17)
+    ~ dueAt — 邊界時間 23:59:59 UTC 借 1 天 → 下一日 23:59:59 (covered 17)
+    ~ dueAt — 邊界時間 借 2 天,跨日無縫 (covered 17)
+    ~ dueAt — 邊界時間 大借期 (loanDays = 3650 ≈ 10 年) (covered 17)
+
+[Survived] StringLiteral
+src/domain/book-state.js:21:17
+-       this.name = 'IllegalTransitionError'
++       this.name = ""
+Tests ran:
+    nextBookStatus — 非法轉移 available + return → IllegalTransitionError
+    nextBookStatus — 非法轉移 on_loan + borrow → IllegalTransitionError
+    nextBookStatus — 非法轉移 錯誤訊息包含狀態和事件
+  and 1 more test!
+
+
+[Survived] StringLiteral
+src/domain/book-state.js:28:58
+-     if (!BOOK_STATES.includes(status)) throw new TypeError(`未知的書狀態:${status}`)
++     if (!BOOK_STATES.includes(status)) throw new TypeError(``)
+Tests ran:
+    nextBookStatus — 輸入驗證 未知狀態 → TypeError
+    nextBookStatus — 輸入驗證 null 狀態 → TypeError
+    nextBookStatus — 輸入驗證 狀態是原型鏈上的 toString → TypeError (Prototype Pollution 防護)
+
+
+[Survived] StringLiteral
+src/domain/book-state.js:29:57
+-     if (!BOOK_EVENTS.includes(event)) throw new TypeError(`未知的事件:${event}`)
++     if (!BOOK_EVENTS.includes(event)) throw new TypeError(``)
+Tests ran:
+    nextBookStatus — 輸入驗證 未知事件 → TypeError
+    nextBookStatus — 輸入驗證 undefined 事件 → TypeError
+    nextBookStatus — 輸入驗證 事件是 __proto__ → TypeError (Prototype Pollution 防護)
+
+
+[Survived] OptionalChaining
+src/domain/book-state.js:31:16
+-     const next = TRANSITIONS.get(status)?.get(event)
++     const next = TRANSITIONS.get(status).get(event)
+Tests ran:
+    nextBookStatus — 合法轉移 available + borrow → on_loan
+    nextBookStatus — 合法轉移 on_loan + return → available
+    nextBookStatus — 合法轉移 多次連續轉移,回到初始狀態
+  and 4 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/due-at.js:10:7
+-     if (typeof now !== 'string') throw new TypeError(`now 必須是 ISO-8601 字串:${now}`)
++     if (false) throw new TypeError(`now 必須是 ISO-8601 字串:${now}`)
+Tests ran:
+    dueAt — 正確計算 借 14 天,從基準日算起
+    dueAt — 正確計算 借 7 天
+    dueAt — 正確計算 借 1 天,跨月
+  and 23 more tests!
+
+
+[Survived] StringLiteral
+src/domain/due-at.js:10:52
+-     if (typeof now !== 'string') throw new TypeError(`now 必須是 ISO-8601 字串:${now}`)
++     if (typeof now !== 'string') throw new TypeError(``)
+Tests ran:
+    dueAt — now 驗證 now = null → TypeError
+    dueAt — now 驗證 now = undefined → TypeError
+    dueAt — now 驗證 now = 數字 → TypeError
+
+
+[Survived] StringLiteral
+src/domain/due-at.js:12:48
+-     if (Number.isNaN(nowMs)) throw new TypeError(`now 不是合法的 ISO-8601 字串:${now}`)
++     if (Number.isNaN(nowMs)) throw new TypeError(``)
+Tests ran:
+    dueAt — now 驗證 now = "" → TypeError (空字串不是有效 ISO-8601)
+    dueAt — now 驗證 now = "明天" → TypeError (非 ISO-8601)
+    dueAt — now 驗證 now = 空字串 → TypeError
+
+
+[Survived] StringLiteral
+src/domain/due-at.js:13:73
+-     if (!Number.isInteger(loanDays) || loanDays <= 0) throw new TypeError(`loanDays 必須是正整數:${loanDays}`)
++     if (!Number.isInteger(loanDays) || loanDays <= 0) throw new TypeError(``)
+Tests ran:
+    dueAt — 非整數天數 loanDays = 0 → TypeError (必須正整數)
+    dueAt — 非整數天數 loanDays = -1 → TypeError
+    dueAt — 非整數天數 loanDays = 3.5 → TypeError (必須整數)
+  and 3 more tests!
+
+
+Ran 4.32 tests per mutant on average.
+---------------|------------------|----------|-----------|------------|----------|----------|
+               | % Mutation score |          |           |            |          |          |
+File           |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+---------------|--------|---------|----------|-----------|------------|----------|----------|
+All files      |  85.71 |   85.71 |       48 |         0 |          8 |        0 |        0 |
+ book-state.js |  88.89 |   88.89 |       32 |         0 |          4 |        0 |        0 |
+ due-at.js     |  80.00 |   80.00 |       16 |         0 |          4 |        0 |        0 |
+---------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m19:25:00 (39322) INFO JsonReporter[39m Your report can be found at: file://<lab>/reports/vague-r3.json
+[32m19:25:00 (39322) INFO MutationTestExecutor[39m Done in 2 seconds.

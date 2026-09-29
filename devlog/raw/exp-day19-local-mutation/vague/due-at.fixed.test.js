@@ -1,0 +1,18 @@
+// tests/local/due-at.test.js
+
+import { describe, it, expect } from 'vitest'
+import { dueAt } from '../../src/domain/due-at.js'
+
+describe('dueAt', () => {
+  it("14天: 2026-09-01 + 14d = 2026-09-15",               () => expect(dueAt('2026-09-01T00:00:00Z', 14)).toBe('2026-09-15T00:00:00.000Z'))
+  it("帶毫秒 Z (ISO-8601 固定格式)",                       () => expect(dueAt('2026-12-31T12:00:00Z', 5)).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/))
+  it("跨年正常算 (pure UTC seconds, 不看日曆)",            () => expect(dueAt('2026-12-31T23:59:59Z', 1)).toBe('2027-01-01T23:59:59.000Z'))
+  it("now 為 null → TypeError",                           () => expect(() => dueAt(null, 14)).toThrow(TypeError))
+  it("now 空字串 → TypeError",                             () => expect(() => dueAt('',       14)).toThrow(TypeError))
+  it("now 非 ISO-8601 → TypeError",                        () => expect(() => dueAt('明天',   14)).toThrow(TypeError))
+  it("now 帶時區偏移 → 正常算(不丟錯)",                     () => expect(dueAt('2026-09-01T08:00:00+08:00', 1)).toBe('2026-09-02T00:00:00.000Z'))
+  it("loanDays = 0 → TypeError",                           () => expect(() => dueAt('2026-09-01T00:00:00Z', 0)).toThrow(TypeError))
+  it("loanDays = -7 → TypeError",                          () => expect(() => dueAt('2026-09-01T00:00:00Z', -7)).toThrow(TypeError))
+  it("loanDays = 7.5 → TypeError",                         () => expect(() => dueAt('2026-09-01T00:00:00Z', 7.5)).toThrow(TypeError))
+  it("loanDays = '7' → TypeError",                         () => expect(() => dueAt('2026-09-01T00:00:00Z', '7')).toThrow(TypeError))
+})

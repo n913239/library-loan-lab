@@ -1,0 +1,12 @@
+diff --git a/tests/local/due-at.test.js b/tests/local/due-at.test.js
+index 418838d..1225507 100644
+--- a/tests/local/due-at.test.js
++++ b/tests/local/due-at.test.js
+@@ -1,6 +1,6 @@
+ // tests/local/due-at.test.js
+ // 嚴格照 PLAN.md B1–B7,一案一 it,不增不減。
+-import { describe, it, expect, vi } from 'vitest'
++import { describe, it, expect, vi, afterEach } from 'vitest'
+ import { dueAt } from '../../src/domain/due-at.js'
+ 
+ describe('dueAt', () => {
