@@ -14,5 +14,6 @@
 | `exp-day08-grillme-vm/` | **v3** | 作者在乾淨 VM 裡親手重跑 `/grill-me`:4 輪 18 題,含完整 DECISIONS.md 草稿(round4) |
 | `exp-day08-grillwithdocs-vm/` | **v3** | 同一台 VM 重跑 `/grill-with-docs`:5 輪 21 題,CONTEXT.md + 2 份 ADR + 16 步順序表(`produced/`) |
 | `exp-day09-red-test/` | v3 | 紅測試 `overdueDays` → AI 綠 |
+| `exp-day19-local-mutation/` | v3 | 地端模型寫測試 × Stryker 突變檢查:完整清單與一句話各三輪,加雲端對照組 |
 
 v2 的三個資料夾保留不動,是歷史;文章引用的是 v3。

@@ -1,0 +1,111 @@
+diff --git a/tests/local/book-state.test.js b/tests/local/book-state.test.js
+index abd9761..751c067 100644
+--- a/tests/local/book-state.test.js
++++ b/tests/local/book-state.test.js
+@@ -51,8 +51,8 @@ describe('nextBookStatus — 非法轉移', () => {
+   })
+ 
+   it('錯誤訊息包含狀態和事件', () => {
+-    const e = expect(() => nextBookStatus('available', 'return'))
+-      .toThrow(IllegalTransitionError)
++    let e; try { nextBookStatus('available', 'return') } catch (x) { e = x }
++    expect(e).toBeInstanceOf(IllegalTransitionError)
+     expect(e.message).toContain('available')
+     expect(e.message).toContain('return')
+   })
+diff --git a/tests/local/due-at.test.js b/tests/local/due-at.test.js
+index e863859..e3414c4 100644
+--- a/tests/local/due-at.test.js
++++ b/tests/local/due-at.test.js
+@@ -5,37 +5,37 @@ import { dueAt } from '../../src/domain/due-at.js'
+ describe('dueAt — 正確計算', () => {
+   it('借 14 天,從基準日算起', () => {
+     const result = dueAt('2026-09-01T00:00:00Z', 14)
+-    expect(result).toBe('2026-09-15T00:00:00Z')
++    expect(result).toBe('2026-09-15T00:00:00.000Z')
+   })
+ 
+   it('借 7 天', () => {
+     expect(dueAt('2026-01-01T12:30:45Z', 7))
+-      .toBe('2026-01-08T12:30:45Z')
++      .toBe('2026-01-08T12:30:45.000Z')
+   })
+ 
+   it('借 1 天,跨月', () => {
+     expect(dueAt('2026-01-31T00:00:00Z', 1))
+-      .toBe('2026-02-01T00:00:00Z')
++      .toBe('2026-02-01T00:00:00.000Z')
+   })
+ 
+   it('借 1 天,跨年', () => {
+     expect(dueAt('2026-12-31T23:59:59Z', 1))
+-      .toBe('2027-01-01T23:59:59Z')
++      .toBe('2027-01-01T23:59:59.000Z')
+   })
+ 
+   it('借 30 天,跨年 + 閏年', () => {
+     expect(dueAt('2024-01-01T00:00:00Z', 30))
+-      .toBe('2024-01-31T00:00:00Z')
++      .toBe('2024-01-31T00:00:00.000Z')
+   })
+ 
+   it('借 1 天,閏年 2 月', () => {
+     expect(dueAt('2024-02-28T00:00:00Z', 1))
+-      .toBe('2024-02-29T00:00:00Z')
++      .toBe('2024-02-29T00:00:00.000Z')
+   })
+ 
+   it('非閏年 2 月 → 無閏日', () => {
+     expect(dueAt('2023-02-28T00:00:00Z', 1))
+-      .toBe('2023-03-01T00:00:00Z')
++      .toBe('2023-03-01T00:00:00.000Z')
+   })
+ 
+   it('now 帶毫秒,回傳也保留毫秒', () => {
+@@ -49,7 +49,7 @@ describe('dueAt — 正確計算', () => {
+ 
+   it('借 365 天 (一整年)', () => {
+     expect(dueAt('2026-01-01T00:00:00Z', 365))
+-      .toBe('2027-01-01T00:00:00Z')
++      .toBe('2027-01-01T00:00:00.000Z')
+   })
+ })
+ 
+@@ -106,11 +106,6 @@ describe('dueAt — now 驗證', () => {
+     expect(() => dueAt('明天', 7)).toThrow(TypeError)
+   })
+ 
+-  it('now = 缺時區 Z → TypeError (Date.parse 可能回 0,isNaN 擋住)', () => {
+-    // ISO-8601 沒有 Z,Date.parse 回 NaN
+-    expect(() => dueAt('2026-09-01T00:00:00', 7)).toThrow(TypeError)
+-  })
+-
+   it('now = 空字串 → TypeError', () => {
+     expect(() => dueAt('', 7)).toThrow(TypeError)
+   })
+@@ -119,21 +114,21 @@ describe('dueAt — now 驗證', () => {
+ describe('dueAt — 邊界時間', () => {
+   it(' midnight UTC 借 1 天 → 下一日 midnight', () => {
+     expect(dueAt('2026-09-01T00:00:00Z', 1))
+-      .toBe('2026-09-02T00:00:00Z')
++      .toBe('2026-09-02T00:00:00.000Z')
+   })
+ 
+   it('23:59:59 UTC 借 1 天 → 下一日 23:59:59', () => {
+     expect(dueAt('2026-09-01T23:59:59Z', 1))
+-      .toBe('2026-09-02T23:59:59Z')
++      .toBe('2026-09-02T23:59:59.000Z')
+   })
+ 
+   it('借 2 天,跨日無縫', () => {
+     expect(dueAt('2026-09-01T14:30:00Z', 2))
+-      .toBe('2026-09-03T14:30:00Z')
++      .toBe('2026-09-03T14:30:00.000Z')
+   })
+ 
+   it('大借期 (loanDays = 3650 ≈ 10 年)', () => {
+     expect(dueAt('2026-01-01T00:00:00Z', 3650))
+-      .toBe('2036-01-05T00:00:00Z')
++      .toBe('2035-12-30T00:00:00.000Z')
+   })
+ })

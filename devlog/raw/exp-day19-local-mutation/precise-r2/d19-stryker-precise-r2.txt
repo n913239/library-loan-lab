@@ -1,0 +1,96 @@
+[32m19:24:50 (38556) INFO ProjectReader[39m Found 2 of 237 file(s) to be mutated.
+[32m19:24:50 (38556) INFO Instrumenter[39m Instrumented 2 source file(s) with 56 mutant(s)
+[32m19:24:50 (38556) INFO ConcurrencyTokenProvider[39m Creating 4 test runner process(es).
+[32m19:24:51 (38556) INFO DryRunExecutor[39m Starting initial test run (vitest test runner with "perTest" coverage analysis). This may take a while.
+[32m19:24:51 (38556) INFO DryRunExecutor[39m Initial test run succeeded. Ran 20 tests in 0 seconds (net 4.380584999999826 ms, overhead 170.61941500000017 ms).
+[33m19:24:51 (38556) WARN MutantTestPlanner[39m Detected 19 static mutants (34% of total) that are estimated to take 63% of the time running the tests!
+  You might want to enable "ignoreStatic" to ignore these static mutants for your next run. 
+  For more information about static mutants visit: https://stryker-mutator.io/docs/mutation-testing-elements/static-mutants
+  (disable "warnings.slow" to ignore this warning)
+
+All tests
+  book-state.test.js
+    ✓ BOOK_STATES A1 — 排序後等於白名單 (killed 3)
+    ✘ BOOK_STATES A3 — BOOK_STATES 不可變 (covered 0)
+    ✓ BOOK_EVENTS A2 — 排序後等於白名單 (killed 3)
+    ✘ BOOK_EVENTS A3 — BOOK_EVENTS 不可變 (covered 0)
+    ✓ nextBookStatus A4 — 借出: available → on_loan (killed 14)
+    ✓ nextBookStatus A5 — 歸還: on_loan → available (killed 6)
+    ~ nextBookStatus A6 — 借→還→借 三段鏈 (covered 11)
+    ✓ nextBookStatus A7 — 借出中不能再借 → IllegalTransitionError (killed 3)
+    ~ nextBookStatus A8 — 在架上不能還 → IllegalTransitionError (covered 15)
+    ✓ nextBookStatus A9 — 錯誤物件內容: instanceof / name / status / event / message (killed 2)
+    ~ nextBookStatus A10 — 非法轉移的錯誤不是 TypeError (covered 15)
+    ✓ nextBookStatus A11 — 未知狀態 → TypeError (killed 1)
+    ✓ nextBookStatus A12 — 未知事件 → TypeError (killed 1)
+  due-at.test.js
+    ✓ dueAt B1 — 借 14 天 (killed 11)
+    ~ dueAt B2 — 最小借期 1 天 (covered 17)
+    ~ dueAt B3 — 跨年 (covered 17)
+    ~ dueAt B4 — 毫秒保留 (covered 17)
+    ~ dueAt B5 — 不讀時鐘 (covered 17)
+    ✓ dueAt B6 — now 非法 → TypeError (killed 2)
+    ✓ dueAt B7 — loanDays 非法 → TypeError (killed 4)
+
+[Survived] StringLiteral
+src/domain/book-state.js:28:58
+-     if (!BOOK_STATES.includes(status)) throw new TypeError(`未知的書狀態:${status}`)
++     if (!BOOK_STATES.includes(status)) throw new TypeError(``)
+Tests ran:
+    nextBookStatus A11 — 未知狀態 → TypeError
+
+
+[Survived] StringLiteral
+src/domain/book-state.js:29:57
+-     if (!BOOK_EVENTS.includes(event)) throw new TypeError(`未知的事件:${event}`)
++     if (!BOOK_EVENTS.includes(event)) throw new TypeError(``)
+Tests ran:
+    nextBookStatus A12 — 未知事件 → TypeError
+
+
+[Survived] OptionalChaining
+src/domain/book-state.js:31:16
+-     const next = TRANSITIONS.get(status)?.get(event)
++     const next = TRANSITIONS.get(status).get(event)
+Tests ran:
+    nextBookStatus A4 — 借出: available → on_loan
+    nextBookStatus A5 — 歸還: on_loan → available
+    nextBookStatus A6 — 借→還→借 三段鏈
+  and 4 more tests!
+
+
+[Survived] StringLiteral
+src/domain/due-at.js:10:52
+-     if (typeof now !== 'string') throw new TypeError(`now 必須是 ISO-8601 字串:${now}`)
++     if (typeof now !== 'string') throw new TypeError(``)
+Tests ran:
+    dueAt B6 — now 非法 → TypeError
+
+
+[Survived] StringLiteral
+src/domain/due-at.js:12:48
+-     if (Number.isNaN(nowMs)) throw new TypeError(`now 不是合法的 ISO-8601 字串:${now}`)
++     if (Number.isNaN(nowMs)) throw new TypeError(``)
+Tests ran:
+    dueAt B6 — now 非法 → TypeError
+
+
+[Survived] StringLiteral
+src/domain/due-at.js:13:73
+-     if (!Number.isInteger(loanDays) || loanDays <= 0) throw new TypeError(`loanDays 必須是正整數:${loanDays}`)
++     if (!Number.isInteger(loanDays) || loanDays <= 0) throw new TypeError(``)
+Tests ran:
+    dueAt B7 — loanDays 非法 → TypeError
+
+
+Ran 3.16 tests per mutant on average.
+---------------|------------------|----------|-----------|------------|----------|----------|
+               | % Mutation score |          |           |            |          |          |
+File           |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+---------------|--------|---------|----------|-----------|------------|----------|----------|
+All files      |  89.29 |   89.29 |       50 |         0 |          6 |        0 |        0 |
+ book-state.js |  91.67 |   91.67 |       33 |         0 |          3 |        0 |        0 |
+ due-at.js     |  85.00 |   85.00 |       17 |         0 |          3 |        0 |        0 |
+---------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m19:24:52 (38556) INFO JsonReporter[39m Your report can be found at: file://<lab>/reports/precise-r2.json
+[32m19:24:52 (38556) INFO MutationTestExecutor[39m Done in 1 second.

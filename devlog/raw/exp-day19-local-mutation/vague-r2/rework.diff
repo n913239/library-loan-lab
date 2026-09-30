@@ -1,0 +1,30 @@
+diff --git a/tests/local/book-state.test.js b/tests/local/book-state.test.js
+index 88cf705..d997b40 100644
+--- a/tests/local/book-state.test.js
++++ b/tests/local/book-state.test.js
+@@ -44,10 +44,11 @@ describe('nextBookStatus', () => {
+ 
+   for (const [status, event] of illegalCases) {
+     it(`${status} + ${event} → 丟 IllegalTransitionError`, () => {
+-      const err = expect(() => nextBookStatus(status, event)).toThrow(IllegalTransitionError)
++      expect(() => nextBookStatus(status, event)).toThrow(IllegalTransitionError)
+       // 確認錯誤物件有 status 和 event 欄位
+-      err.toHaveProperty('status', status)
+-      err.toHaveProperty('event', event)
++      let err; try { nextBookStatus(status, event) } catch (e) { err = e }
++      expect(err).toHaveProperty('status', status)
++      expect(err).toHaveProperty('event', event)
+     })
+   }
+ 
+@@ -67,7 +68,8 @@ describe('nextBookStatus', () => {
+   })
+ 
+   it('錯誤訊息包含狀態與事件名稱', () => {
+-    const err = expect(() => nextBookStatus('on_loan', 'borrow')).toThrow(IllegalTransitionError)
+-    expect(err).toHaveProperty('message').toMatch(/on_loan.*borrow/)
++    expect(() => nextBookStatus('on_loan', 'borrow')).toThrow(IllegalTransitionError)
++    let err; try { nextBookStatus('on_loan', 'borrow') } catch (e) { err = e }
++    expect(err.message).toMatch(/on_loan.*borrow/)
+   })
+ })

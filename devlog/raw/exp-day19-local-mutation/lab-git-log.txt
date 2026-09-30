@@ -1,0 +1,33 @@
+* b3dd93f 人工返工 precise r2:import 漏 afterEach(清單第一行就寫了)
+* 47c8833 precise r2 原樣
+| * cd698ba 人工返工 r3:11 處少 .000、1 處日期算錯(3650 天)、1 處誤用 toThrow 回傳值、刪 1 條測不存在的行為(以為沒 Z 會 NaN)
+| * 6841536 vague r3 原樣
+| | * 022a645 人工返工 r2:三處誤用 toThrow 的回傳值(它不回傳錯誤物件),改成 try/catch 取錯誤
+| | * fa7a9df vague r2 原樣
+| |/  
+| | * 596d05b precise r3 原樣
+| |/  
+|/|   
+| | * 453e187 人工返工:兩個少了 .000、一個時區算錯(+08:00 的 08:00 是 UTC 00:00)
+| | * 05c2c89 地端(模糊指令)交付,原樣:3 紅
+| |/  
+| * d1bc3df vague 起點:沒有清單
+|/  
+| * 443ed8a 地端(精準清單)交付,原樣
+|/  
+* 50602b1 d19 起點:拿掉 book-state / due-at 的既有測試,加測試清單
+* ee08920 反例:非法輸入要拒絕 —— AI 多做的 TypeError 改由測試第 7 條與規格釘住;Day 8(grill-me / grill-with-docs 三組)、Day 9(突變、一個 case 三次、錯測試三次)、Day 10(permissions 探針、branch protection、PR #1/#2 兩趟)原文歸檔 (#3)
+* 7108a6b AI 版:book-state.js 書的狀態機,白名單轉移表只寫在這一檔(硬規則 2) (#2)
+* 633d3b9 AI 版:dueAt(now, loanDays) 借出當下算到期時刻快照;先紅後綠 15 題全綠(14 天、帶毫秒、不讀時鐘、非法輸入 TypeError) (#1)
+* 09da5cb AI 版:overdueDays 讓紅測試變綠(27 s、8 turns、$0.31);Plan Mode 三輪、/grill-me 四輪 24 題、Day 9 綠的原文
+* 96362bd 規格:決定 6,列表兩段都帶 overdueDays(Plan Mode 第二輪問出來;歷史讀存的欄位是 /grill-me 追問後定的)
+* ef764ac Day 9:先寫一個會紅的測試 overdueDays(AI 尚未介入);舊的 canCheckout 隨規格簡化移除
+* 523b0fa 規格簡化為最簡版:一書一冊、借還兩條線、4 條 endpoint;非目標 6 條(預約排隊變第 1 條);硬規則 2 白名單縮成 available↔on_loan(AI 尚未介入)
+* 2adb5eb Day 8 實驗:/grill-me 拷問規格四輪 27 題,frontier 清空(AI 版;每輪問題、我的答案與設計樹摘要原文)
+* f20324e 規格:保留時間存 loan_policies.hold_hours 並快照、同一本書一人同時最多一個關係(Day 7 問出來的兩個洞);非目標 6、13 補理由
+* 4cf64d3 Day 7 實驗第二、三輪:回答 Plan Mode 的 5 題後它再問 4 題,第三輪說「沒有了」(AI 版;兩版計畫與九題對賬原文)
+* 9d7a076 Day 9:先寫一個會紅的測試 canCheckout(AI 尚未介入)
+* 9d032e8 前置實驗 A1:同一題目兩種 prompt 的 schema 原文(AI 版)
+* 379a6d5 規格:保留逾時改為順延下一位,修掉一句話與狀態機對不起來的地方(Day 8 AI 問出來的)
+* 087eed6 Day 8 實驗實跑:Plan Mode 的計畫 vs 先寫好的規格(AI 版)
+* 896561e 腳手架:CLAUDE.md、規格、15 條非目標、實驗紀律(AI 尚未介入)

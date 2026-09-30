@@ -1,0 +1,12 @@
+
+Ran 3.48 tests per mutant on average.
+---------------|------------------|----------|-----------|------------|----------|----------|
+               | % Mutation score |          |           |            |          |          |
+File           |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+---------------|--------|---------|----------|-----------|------------|----------|----------|
+All files      |  89.29 |   89.29 |       50 |         0 |          6 |        0 |        0 |
+ book-state.js |  91.67 |   91.67 |       33 |         0 |          3 |        0 |        0 |
+ due-at.js     |  85.00 |   85.00 |       17 |         0 |          3 |        0 |        0 |
+---------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m18:53:19 (31729) INFO JsonReporter[39m Your report can be found at: file://<lab>/reports/precise.json
+[32m18:53:19 (31729) INFO MutationTestExecutor[39m Done in 1 second.
